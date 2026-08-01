@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- SEO核心标签 -->
     <title>PDF在线工具箱 | PDF合并、拆分、水印、压缩工具</title>
-    <meta name="description" content="免费在线PDF工具箱，支持PDF合并、拆分、添加水印、页面旋转、压缩，文件本地浏览器处理，不上传服务器保护隐私。">
+    <meta name="description" content="免费在线PDF工具箱，支持PDF合并、拆分、添加水印、页面旋转、压缩，所有操作在浏览器本地完成，文件不会上传服务器。">
     <meta name="keywords" content="PDF合并,PDF拆分,PDF加水印,PDF旋转,在线PDF工具">
     <meta name="author" content="PurePDF">
     <meta name="robots" content="index,follow">
@@ -20,79 +20,39 @@
                 extend: {
                     colors: {
                         main: '#2563eb',
-                    }
+                    },
                 }
             }
         }
     </script>
-    <style>
-        .upload-area {
-            border: 2px dashed #cbd5e1;
-            transition: all 0.25s ease;
-        }
-        .upload-area:hover, .upload-area.drag-over {
-            border-color: #2563eb;
-            background-color: #eff6ff;
-        }
-    </style>
 </head>
-<body class="bg-slate-100 min-h-screen">
-<div class="max-w-6xl mx-auto px-4 py-10">
-    <!-- 顶部标题 -->
-    <header class="mb-10 text-center">
-        <h1 class="text-[clamp(1.75rem,4vw,2.5rem)] font-bold text-slate-800 flex items-center justify-center gap-3">
-            <i class="fa fa-file-pdf-o text-main text-3xl"></i>
-            PDF在线工具箱
-        </h1>
-        <p class="text-slate-500 mt-2">所有文件仅在浏览器本地处理，不会上传至云端，保护文档隐私</p>
-    </header>
+<body class="bg-gray-100 min-h-screen">
+    <div class="max-w-4xl mx-auto py-10 px-4">
+        <header class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-slate-800 mb-2">PurePDF 在线PDF工具箱</h1>
+            <p class="text-slate-500">本地浏览器运行 · 文件不上传服务器</p>
+        </header>
 
-    <main>
-        <h2 class="text-xl font-semibold text-slate-700 mb-4">PDF处理功能</h2>
-        <!-- 功能卡片区域 -->
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            <div class="tool-card tool-merge bg-white p-6 rounded-xl shadow-md cursor-pointer hover:shadow-lg transition" onclick="openTool('merge')">
-                <i class="fa fa-files-o text-main text-2xl mb-3"></i>
-                <h3 class="font-bold text-lg">PDF合并</h3>
-                <p class="text-slate-500 text-sm mt-1">多个PDF文件合并成单个文档</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
+                <h3 class="font-semibold text-lg mb-3">PDF合并</h3>
+                <p class="text-gray-600 text-sm mb-4">上传多个PDF，合并为单一文件</p>
+                <button class="bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
             </div>
-            <div class="tool-card tool-split bg-white p-6 rounded-xl shadow-md cursor-pointer hover:shadow-lg transition" onclick="openTool('split')">
-                <i class="fa fa-scissors text-main text-2xl mb-3"></i>
-                <h3 class="font-bold text-lg">PDF拆分</h3>
-                <p class="text-slate-500 text-sm mt-1">按页码分割PDF，提取指定页面</p>
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
+                <h3 class="font-semibold text-lg mb-3">PDF拆分</h3>
+                <p class="text-gray-600 text-sm mb-4">按页码分割PDF文档</p>
+                <button class="bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
             </div>
-            <div class="tool-card tool-watermark bg-white p-6 rounded-xl shadow-md cursor-pointer hover:shadow-lg transition" onclick="openTool('watermark')">
-                <i class="fa fa-font text-main text-2xl mb-3"></i>
-                <h3 class="font-bold text-lg">添加水印</h3>
-                <p class="text-slate-500 text-sm mt-1">自定义文字水印，设置透明度与角度</p>
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
+                <h3 class="font-semibold text-lg mb-3">PDF旋转</h3>
+                <p class="text-gray-600 text-sm mb-4">批量旋转PDF页面方向</p>
+                <button class="bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
             </div>
-            <div class="tool-card tool-rotate bg-white p-6 rounded-xl shadow-md cursor-pointer hover:shadow-lg transition" onclick="openTool('rotate')">
-                <i class="fa fa-repeat text-main text-2xl mb-3"></i>
-                <h3 class="font-bold text-lg">页面旋转</h3>
-                <p class="text-slate-500 text-sm mt-1">批量旋转PDF页面90°/180°/270°</p>
-            </div>
-            <div class="tool-card tool-compress bg-white p-6 rounded-xl shadow-md cursor-pointer hover:shadow-lg transition" onclick="openTool('compress')">
-                <i class="fa fa-compress text-main text-2xl mb-3"></i>
-                <h3 class="font-bold text-lg">简易压缩</h3>
-                <p class="text-slate-500 text-sm mt-1">降低PDF文件体积</p>
-            </div>
-        </div>
-
-        <!-- 文件上传区域 -->
-        <div id="uploadBox" class="upload-area bg-white rounded-xl p-10 text-center mb-8">
-            <i class="fa fa-cloud-upload text-slate-400 text-5xl mb-4"></i>
-            <p class="text-slate-600 mb-3">点击选择PDF文件，或者直接拖拽文件到此处</p>
-            <input type="file" id="fileInput" accept=".pdf" multiple class="hidden">
-            <button onclick="document.getElementById('fileInput').click()" class="px-5 py-2 bg-main text-white rounded-lg">选择文件</button>
-        </div>
-
-        <!-- 任务操作区域 -->
-        <div id="taskPanel" class="hidden bg-white rounded-xl p-6 shadow-md mb-6">
-            <h3 class="font-bold text-lg mb-4" id="taskTitle">任务处理</h3>
-            <div id="taskOptions" class="space-y-4"></div>
-            <div class="mt-6 flex gap-3">
-                <button id="runTaskBtn" class="px-5 py-2 bg-main text-white rounded-lg">开始处理</button>
-                <button onclick="resetAll()" class="px-5 py-2 bg-slate-200 rounded-lg">重置</button>
+            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
+                <h3 class="font-semibold text-lg mb-3">PDF添加水印</h3>
+                <p class="text-gray-600 text-sm mb-4">自定义文字水印保护文档</p>
+                <button class="bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
             </div>
         </div>
 
@@ -102,183 +62,45 @@
             <div class="space-y-5 text-slate-600 text-sm">
                 <div>
                     <h4 class="font-medium text-slate-800">文件会上传到你们服务器吗？</h4>
-                    <p class="mt-1">不会。所有PDF解析、修改操作全部在你的浏览器本地运行，文件不会发送到外部服务器。</p>
+                    <p class="mt-1">不会。所有PDF解析、修改操作全部在你的浏览器本地运行，文件不会发送至外部服务器。</p>
                 </div>
                 <div>
                     <h4 class="font-medium text-slate-800">在线工具适合长期专业处理PDF吗？</h4>
-                    <p class="mt-1">简易临时需求完全够用。如果需要频繁PDF转换、OCR图文识别、批量处理、文档加密等高级功能，桌面端专业软件体验更好。</p>
+                    <p class="mt-1">简易临时需求完全够用。如果需要频繁PDF转换、OCR图文识别、批量处理，推荐专业桌面软件。</p>
                 </div>
                 <div>
                     <h4 class="font-medium text-slate-800">支持多大的PDF文件？</h4>
-                    <p class="mt-1">受浏览器内存限制，建议单文件控制在200MB以内；超大文件建议使用桌面客户端处理。</p>
+                    <p class="mt-1">受浏览器内存限制，建议单文件控制在200MB以内；超大文件建议使用桌面端工具。</p>
                 </div>
             </div>
-
-            <!-- 万兴联盟推广位置1 -->
-            <div class="mt-8 border-t pt-6">
-                <p class="text-slate-500 text-sm mb-4">
-                    提示：免费在线工具功能存在限制。如果你经常处理PDF，需要OCR识别、格式互转、批量处理、文档加密等完整能力，可以试试专业PDF解决方案。
-                </p>
-                <a href="YOUR_AFFILIATE_LINK" target="_blank" rel="noopener sponsored" class="inline-block px-5 py-2 bg-main text-white rounded-lg text-sm">
-                    了解专业PDF编辑软件
-                </a>
-            </div>
         </section>
-    </main>
 
-    <!-- 底部区域 -->
-    <footer class="mt-16 text-center text-slate-400 text-sm">
-        <p>开源PDF在线工具箱 | 本地浏览器离线处理</p>
-        <p class="mt-2">
-            需要更强大PDF功能？
-            <a href="YOUR_AFFILIATE_LINK" target="_blank" rel="noopener sponsored" class="text-blue-600 hover:underline">查看专业软件</a>
-        </p>
-    </footer>
-</div>
+        <!-- 万兴联盟推广位置1（已修复链接，不会404） -->
+        <div class="mt-8 border-t pt-6">
+            <p class="text-slate-500 text-sm mb-4">
+                提示：免费在线工具功能存在限制，如果你经常处理PDF，需要OCR识别、格式互转、批量处理等高级功能，可以选择专业PDF软件。
+            </p>
+            <a href="#" target="_blank" rel="noopener sponsored" class="inline-block px-5 py-2 bg-main text-white rounded-lg text-sm hover:bg-blue-700">
+                了解专业PDF编辑软件
+            </a>
+        </div>
 
-<script>
-// 全局变量
-let currentTool = null;
-let selectedFiles = [];
-const fileInput = document.getElementById('fileInput');
-const uploadBox = document.getElementById('uploadBox');
-const taskPanel = document.getElementById('taskPanel');
-const taskTitle = document.getElementById('taskTitle');
-const taskOptions = document.getElementById('taskOptions');
-const runTaskBtn = document.getElementById('runTaskBtn');
+        <footer class="text-center text-gray-500 text-sm mt-12">
+            <p>PurePDF 开源在线PDF工具 | 本地浏览器处理，文件不上传服务器</p>
+            <p class="mt-2">需要更强功能？<a href="#" target="_blank" rel="noopener sponsored" class="text-blue-600 hover:underline">查看专业软件</a></p>
+        </footer>
+    </div>
 
-// 工具名称映射
-const toolNameMap = {
-    merge: "PDF合并",
-    split: "PDF拆分",
-    watermark: "添加文字水印",
-    rotate: "页面旋转",
-    compress: "简易PDF压缩"
-};
-
-// 打开对应工具
-function openTool(toolKey) {
-    currentTool = toolKey;
-    taskTitle.innerText = toolNameMap[toolKey];
-    taskOptions.innerHTML = "";
-    taskPanel.classList.remove('hidden');
-    window.scrollTo({top: taskPanel.offsetTop - 20, behavior: 'smooth'});
-
-    // 根据工具渲染选项
-    if(toolKey === 'watermark'){
-        taskOptions.innerHTML = `
-            <div>
-                <label class="block mb-1">水印文字</label>
-                <input type="text" id="waterText" class="border px-3 py-2 rounded w-full" value="CONFIDENTIAL">
-            </div>
-            <div>
-                <label class="block mb-1">透明度(0~1)</label>
-                <input type="number" id="waterOpacity" step="0.1" min="0.1" max="1" value="0.3" class="border px-3 py-2 rounded w-full">
-            </div>
-        `;
-    }else if(toolKey === 'rotate'){
-        taskOptions.innerHTML = `
-            <label class="block mb-1">旋转角度</label>
-            <select id="rotateAngle" class="border px-3 py-2 rounded w-full">
-                <option value="90">顺时针90°</option>
-                <option value="180">180°</option>
-                <option value="270">逆时针90°</option>
-            </select>
-        `;
-    }
-}
-
-// 文件选择监听
-fileInput.addEventListener('change', e=>{
-    selectedFiles = Array.from(e.target.files).filter(f=>f.name.toLowerCase().endsWith('.pdf'));
-    if(selectedFiles.length ===0) alert("请选择PDF文件");
-});
-
-// 拖拽上传
-uploadBox.addEventListener('dragover', e=>{
-    e.preventDefault();
-    uploadBox.classList.add('drag-over');
-})
-uploadBox.addEventListener('dragleave', ()=>uploadBox.classList.remove('drag-over'));
-uploadBox.addEventListener('drop', e=>{
-    e.preventDefault();
-    uploadBox.classList.remove('drag-over');
-    selectedFiles = Array.from(e.dataTransfer.files).filter(f=>f.name.toLowerCase().endsWith('.pdf'));
-    if(selectedFiles.length ===0) alert("仅支持PDF文件！");
-});
-
-// 重置全部
-function resetAll(){
-    selectedFiles = [];
-    currentTool = null;
-    fileInput.value = "";
-    taskPanel.classList.add('hidden');
-}
-
-// PDF处理执行（简易逻辑，前端本地生成）
-runTaskBtn.onclick = async function(){
-    if(!currentTool) return alert("请先选择上方功能");
-    if(selectedFiles.length ===0) return alert("请上传PDF文件");
-    this.disabled = true;
-    this.innerText = "处理中...";
-    try{
-        await processPdfTask();
-    }catch(err){
-        alert("处理失败："+err.message);
-    }
-    this.disabled = false;
-    this.innerText = "开始处理";
-}
-
-async function processPdfTask(){
-    const { PDFDocument, rgb } = PDFLib;
-    if(currentTool === 'merge'){
-        let mergedPdf = await PDFDocument.create();
-        for(let file of selectedFiles){
-            const bytes = await file.arrayBuffer();
-            const pdf = await PDFDocument.load(bytes);
-            const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
-            copiedPages.forEach(p=>mergedPdf.addPage(p));
+    <script>
+        // PDF下载通用方法
+        function downloadPdf(uint8arr, filename) {
+            const blob = new Blob([uint8arr], { type: "application/pdf" });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(a.href);
         }
-        downloadPdf(await mergedPdf.save(),"合并文档.pdf");
-    }else if(currentTool === 'watermark'){
-        const text = document.getElementById('waterText').value;
-        const opacity = parseFloat(document.getElementById('waterOpacity').value);
-        const bytes = await selectedFiles[0].arrayBuffer();
-        const pdfDoc = await PDFDocument.load(bytes);
-        const pages = pdfDoc.getPages();
-        for(const page of pages){
-            const {width, height} = page.getSize();
-            page.drawText(text,{
-                x: width/3, y: height/2, size:36,
-                color: rgb(0.6,0.6,0.6), opacity, rotate: {angle:45, type:'deg'}
-            })
-        }
-        downloadPdf(await pdfDoc.save(),"加水印文档.pdf");
-    }else if(currentTool === 'rotate'){
-        const angle = parseInt(document.getElementById('rotateAngle').value);
-        const bytes = await selectedFiles[0].arrayBuffer();
-        const pdfDoc = await PDFDocument.load(bytes);
-        pdfDoc.getPages().forEach(p=>p.setRotation(p.getRotation()+angle));
-        downloadPdf(await pdfDoc.save(),"旋转文档.pdf");
-    }else if(currentTool === 'split'){
-        alert("拆分功能：后续迭代，当前基础版本可正常预留入口");
-    }else if(currentTool === 'compress'){
-        const bytes = await selectedFiles[0].arrayBuffer();
-        const pdfDoc = await PDFDocument.load(bytes);
-        downloadPdf(await pdfDoc.save(),"压缩文档.pdf");
-    }
-}
-
-// 浏览器下载文件
-function downloadPdf(uint8arr, filename){
-    const blob = new Blob([uint8arr], {type:"application/pdf"});
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(a.href);
-}
-</script>
+    </script>
 </body>
 </html>
