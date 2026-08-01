@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- SEO核心标签 -->
-    <title>PDF在线工具箱 | PDF合并、拆分、水印、压缩工具</title>
-    <meta name="description" content="免费在线PDF工具箱，支持PDF合并、拆分、添加水印、页面旋转、压缩，所有操作在浏览器本地完成，文件不会上传服务器。">
-    <meta name="keywords" content="PDF合并,PDF拆分,PDF加水印,PDF旋转,在线PDF工具">
+    <title>PDF在线工具箱 | PDF合并、拆分、水印、旋转工具</title>
+    <meta name="description" content="免费在线PDF工具箱，支持PDF合并、拆分、添加水印、页面旋转，所有操作在浏览器本地完成，文件不会上传服务器。">
+    <meta name="keywords" content="PDF合并,PDF拆分,PDF加水印,PDF旋转,本地PDF工具,无需上传PDF">
     <meta name="author" content="PurePDF">
     <meta name="robots" content="index,follow">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <!-- PDF解析核心库 -->
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -26,38 +25,49 @@
         }
     </script>
 </head>
-<body class="bg-gray-100 min-h-screen">
-    <div class="max-w-4xl mx-auto py-10 px-4">
+<body class="bg-gray-100 min-h-screen py-10 px-4">
+    <div class="max-w-4xl mx-auto">
         <header class="text-center mb-10">
             <h1 class="text-3xl font-bold text-slate-800 mb-2">PurePDF 在线PDF工具箱</h1>
             <p class="text-slate-500">本地浏览器运行 · 文件不上传服务器</p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
+            <!-- PDF合并 -->
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
                 <h3 class="font-semibold text-lg mb-3">PDF合并</h3>
                 <p class="text-gray-600 text-sm mb-4">上传多个PDF，合并为单一文件</p>
-                <button class="bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
+                <input type="file" class="file-input hidden" accept=".pdf" multiple>
+                <button class="select-btn bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
             </div>
+
+            <!-- PDF拆分 -->
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
                 <h3 class="font-semibold text-lg mb-3">PDF拆分</h3>
                 <p class="text-gray-600 text-sm mb-4">按页码分割PDF文档</p>
-                <button class="bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
+                <input type="file" class="file-input hidden" accept=".pdf">
+                <button class="select-btn bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
             </div>
+
+            <!-- PDF旋转 -->
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
                 <h3 class="font-semibold text-lg mb-3">PDF旋转</h3>
                 <p class="text-gray-600 text-sm mb-4">批量旋转PDF页面方向</p>
-                <button class="bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
+                <input type="file" class="file-input hidden" accept=".pdf">
+                <button class="select-btn bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
             </div>
+
+            <!-- PDF添加水印 -->
             <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
                 <h3 class="font-semibold text-lg mb-3">PDF添加水印</h3>
                 <p class="text-gray-600 text-sm mb-4">自定义文字水印保护文档</p>
-                <button class="bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
+                <input type="file" class="file-input hidden" accept=".pdf">
+                <button class="select-btn bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
             </div>
         </div>
 
         <!-- FAQ板块 -->
-        <section class="mt-16 bg-white rounded-xl p-8 shadow-md">
+        <section class="bg-white rounded-xl p-8 shadow-md mb-12">
             <h2 class="text-xl font-semibold text-slate-700 mb-6">常见问题</h2>
             <div class="space-y-5 text-slate-600 text-sm">
                 <div>
@@ -75,7 +85,7 @@
             </div>
         </section>
 
-        <!-- 万兴联盟推广位置1（已移除target="_blank"，不会弹出空白新标签） -->
+        <!-- 推广入口 -->
         <div class="mt-8 border-t pt-6">
             <p class="text-slate-500 text-sm mb-4">
                 提示：免费在线工具功能存在限制，如果你经常处理PDF，需要OCR识别、格式互转、批量处理等高级功能，可以选择专业PDF软件。
@@ -91,16 +101,24 @@
         </footer>
     </div>
 
-    <script>
-        // PDF下载通用方法
-        function downloadPdf(uint8arr, filename) {
-            const blob = new Blob([uint8arr], { type: "application/pdf" });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = filename;
-            a.click();
-            URL.revokeObjectURL(a.href);
-        }
-    </script>
+<script>
+// 按钮触发文件选择
+document.querySelectorAll('.select-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const input = this.parentElement.querySelector('.file-input');
+        input.click();
+    })
+})
+
+// 文件选中监听
+document.querySelectorAll('.file-input').forEach(input => {
+    input.addEventListener('change', async function (e) {
+        const files = e.target.files;
+        if (!files.length) return;
+        alert(`成功选中${files.length}个PDF，PDF处理功能持续开发中。`);
+        // 后续在这里写pdf-lib处理逻辑
+    })
+})
+</script>
 </body>
 </html>
