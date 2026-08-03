@@ -39,6 +39,7 @@
             <nav class="space-x-4">
                 <a href="#tools" class="hover:text-blue-200">全部工具</a>
                 <a href="#promo" class="hover:text-blue-200">专业软件</a>
+                <a href="#faq" class="hover:text-blue-200">常见问题</a>
                 <a href="#about" class="hover:text-blue-200">关于</a>
             </nav>
         </div>
@@ -55,26 +56,26 @@
 
     <!--工具卡片区域-->
     <section id="tools" class="container mx-auto px-4 py-14">
-        <h3 class="text-2xl font-bold text-center mb-10">PDF工具列表</h3>
+        <h2 class="text-2xl font-bold text-center mb-10">PDF工具列表</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="merge">
                 <i class="fa fa-files-o text-3xl text-primary mb-4"></i>
-                <h4 class="font-semibold text-lg">PDF合并</h4>
+                <h3 class="font-semibold text-lg">PDF合并</h3>
                 <p class="text-gray-500 text-sm mt-2">多个PDF合并成单一文档</p>
             </div>
             <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="split">
                 <i class="fa fa-scissors text-3xl text-primary mb-4"></i>
-                <h4 class="font-semibold text-lg">PDF拆分</h4>
+                <h3 class="font-semibold text-lg">PDF拆分</h3>
                 <p class="text-gray-500 text-sm mt-2">分割PDF，提取指定页面</p>
             </div>
             <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="compress">
                 <i class="fa fa-compress text-3xl text-primary mb-4"></i>
-                <h4 class="font-semibold text-lg">PDF压缩</h4>
+                <h3 class="font-semibold text-lg">PDF压缩</h3>
                 <p class="text-gray-500 text-sm mt-2">缩小文件体积，便于传输</p>
             </div>
             <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="watermark">
                 <i class="fa fa-font text-3xl text-primary mb-4"></i>
-                <h4 class="font-semibold text-lg">PDF添加水印</h4>
+                <h3 class="font-semibold text-lg">PDF添加水印</h3>
                 <p class="text-gray-500 text-sm mt-2">自定义文字水印保护文档</p>
             </div>
         </div>
@@ -99,10 +100,10 @@
         </div>
     </section>
 
-    <!--推广板块（静态文字，无链接，不会点击跳转）-->
+    <!--推广板块（静态文字，无链接，不会跳转）-->
     <section id="promo" class="bg-blue-50 py-12">
         <div class="container mx-auto px-4 text-center">
-            <h3 class="text-xl font-bold mb-3">需要专业PDF编辑功能？</h3>
+            <h2 class="text-xl font-bold mb-3">需要专业PDF编辑功能？</h2>
             <p class="text-gray-600 mb-5">OCR文字识别、表单编辑、批量处理可选专业软件</p>
             <span class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-medium">
                 了解专业 PDF 编辑软件
@@ -110,10 +111,33 @@
         </div>
     </section>
 
+    <!-- ✅ 新增FAQ常见问题板块【站内SEO重点】 -->
+    <section id="faq" class="container mx-auto px-4 py-14">
+        <h2 class="text-2xl font-bold text-center mb-10">常见问题</h2>
+        <div class="max-w-3xl mx-auto space-y-6">
+            <div class="bg-white p-5 rounded-lg shadow">
+                <h3 class="font-semibold mb-2">文件会上传到服务器保存吗？</h3>
+                <p class="text-gray-600">不会。所有PDF处理操作全部在你的浏览器本地运行，文件不会上传至外部服务器，有效保护文档隐私。</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow">
+                <h3 class="font-semibold mb-2">使用PDF工具需要付费、注册账号吗？</h3>
+                <p class="text-gray-600">基础PDF工具永久免费，无需注册登录，打开网页直接使用。</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow">
+                <h3 class="font-semibold mb-2">支持多大的PDF文件进行处理？</h3>
+                <p class="text-gray-600">文件上限取决于你的设备内存，普通几十MB以内的PDF均可正常处理。超大文件建议拆分后操作。</p>
+            </div>
+            <div class="bg-white p-5 rounded-lg shadow">
+                <h3 class="font-semibold mb-2">处理完成后的文件有效期多久？</h3>
+                <p class="text-gray-600">文件仅保存在本地浏览器，关闭页面后数据自动清除，不会长期留存。</p>
+            </div>
+        </div>
+    </section>
+
     <!--关于区域-->
     <section id="about" class="container mx-auto px-4 py-14">
         <div class="max-w-3xl mx-auto">
-            <h3 class="text-2xl font-bold mb-4">关于PurePDF</h3>
+            <h2 class="text-2xl font-bold mb-4">关于PurePDF</h2>
             <p class="text-gray-600 leading-relaxed">
                 所有PDF操作在本地浏览器运行，文件不会上传至外部服务器。
                 免安装、免注册，打开网页即可免费使用各类PDF工具。
