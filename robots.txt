@@ -1,3 +1,5 @@
 User-agent: *
 Allow: /
-Sitemap: https://LIU0612nn.github.io/liu-purepdf/sitemap.xml
+
+# 网站地图地址
+Sitemap: https://purepdf.cn/sitemap.xml
