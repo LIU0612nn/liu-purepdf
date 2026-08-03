@@ -82,10 +82,11 @@
         </div>
     </section>
 
-    <!--文件上传处理区-->
+    <!--文件上传处理区（核心操作区域）-->
     <section id="upload-area" class="container mx-auto px-4 py-6 hidden">
         <div class="max-w-2xl mx-auto">
-            <h3 id="currentToolTitle" class="text-xl font-bold text-center mb-4"></h3>
+            <h3 id="currentToolTitle" class="text-xl font-bold text-center mb-2"></h3>
+            <p id="toolTipText" class="text-center text-gray-500 mb-4"></p>
             <div id="dropbox" class="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center">
                 <i class="fa fa-upload text-4xl text-gray-400 mb-3"></i>
                 <p class="mb-3">拖拽PDF到此区域，或点击选择文件</p>
@@ -102,18 +103,18 @@
         </div>
     </section>
 
-    <!--推广板块（静态文字，无链接，不会跳转）-->
+    <!--推广板块（静态文字，无跳转链接）-->
     <section id="promo" class="bg-blue-50 py-12">
         <div class="container mx-auto px-4 text-center">
             <h2 class="text-xl font-bold mb-3">需要专业PDF编辑功能？</h2>
-            <p class="text-gray-600 mb-5">OCR文字识别、表单编辑、批量处理可选专业软件</p>
+            <p class="text-gray-600 mb-5">OCR文字识别、表单编辑、批量处理可选用专业软件</p>
             <span class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-medium">
                 了解专业 PDF 编辑软件
             </span>
         </div>
     </section>
 
-    <!--FAQ常见问题板块【站内SEO重点】 -->
+    <!--FAQ常见问题（SEO重点板块）-->
     <section id="faq" class="container mx-auto px-4 py-14">
         <h2 class="text-2xl font-bold text-center mb-10">常见问题</h2>
         <div class="max-w-3xl mx-auto space-y-6">
@@ -136,7 +137,7 @@
         </div>
     </section>
 
-    <!--关于区域-->
+    <!--关于页面-->
     <section id="about" class="container mx-auto px-4 py-14">
         <div class="max-w-3xl mx-auto">
             <h2 class="text-2xl font-bold mb-4">关于PurePDF</h2>
@@ -163,21 +164,31 @@
         const resetBtn = document.getElementById('reset-btn');
         const resultBox = document.getElementById('result-box');
         const toolTitle = document.getElementById('currentToolTitle');
+        const toolTipText = document.getElementById('toolTipText');
         const allCards = document.querySelectorAll('.tool-card');
 
-        //工具卡片点击
+        // 工具提示文案映射
+        const tipMap = {
+            merge:"提示：请上传多个PDF文件进行合并",
+            split:"提示：请上传单个PDF文件，提取页面",
+            compress:"提示：请上传单个PDF文件缩小体积",
+            watermark:"提示：请上传单个PDF文件添加文字水印"
+        };
+
+        // 卡片点击事件
         allCards.forEach(card => {
             card.addEventListener('click', function () {
-                //清除所有卡片高亮
+                // 清除全部高亮
                 allCards.forEach(c => c.classList.remove('active'));
-                //当前卡片高亮
+                // 当前卡片高亮
                 this.classList.add('active');
 
                 currentTool = this.dataset.tool;
                 const toolName = this.dataset.name;
                 toolTitle.textContent = `当前选择：${toolName}`;
+                toolTipText.textContent = tipMap[currentTool];
 
-                //合并允许多选，其他单选
+                // 合并支持多选，其余仅单选
                 if(currentTool === 'merge'){
                     fileInput.multiple = true;
                 }else{
@@ -193,7 +204,7 @@
             })
         })
 
-        //拖拽监听
+        // 拖拽上传逻辑
         dropbox.addEventListener('dragover', e => {
             e.preventDefault();
             dropbox.classList.add('drop-active');
@@ -202,17 +213,17 @@
         dropbox.addEventListener('drop', e => {
             e.preventDefault();
             dropbox.classList.remove('drop-active');
-            selectedFiles = Array.from(e.dataTransfer.files).filter(f => f.name.toLowerCase().endsWith('.pdf'));
+            selectedFiles = Array.from(e.dataTransfer.files).filter(file => file.name.toLowerCase().endsWith('.pdf'));
             if (selectedFiles.length > 0) startBtn.disabled = false;
         })
 
-        //文件选择
+        // 文件选择器
         fileInput.addEventListener('change', function () {
             selectedFiles = Array.from(this.files);
             if (selectedFiles.length > 0) startBtn.disabled = false;
         })
 
-        //重置按钮
+        // 重置按钮
         resetBtn.addEventListener('click', () => {
             selectedFiles = [];
             fileInput.value = '';
@@ -220,7 +231,7 @@
             resultBox.classList.add('hidden');
         })
 
-        //处理按钮
+        // 处理按钮
         startBtn.addEventListener('click', async () => {
             alert(`已选中【${toolTitle.textContent}】，PDF处理模块就绪`);
         })
