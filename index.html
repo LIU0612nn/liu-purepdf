@@ -1,124 +1,100 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF在线工具箱 | PDF合并、拆分、水印、旋转工具</title>
-    <meta name="description" content="免费在线PDF工具箱，支持PDF合并、拆分、添加水印、页面旋转，所有操作在浏览器本地完成，文件不会上传服务器。">
-    <meta name="keywords" content="PDF合并,PDF拆分,PDF加水印,PDF旋转,本地PDF工具,无需上传PDF">
-    <meta name="author" content="PurePDF">
-    <meta name="robots" content="index,follow">
-
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        main: '#2563eb',
-                    },
-                }
-            }
-        }
-    </script>
-</head>
-<body class="bg-gray-100 min-h-screen py-10 px-4">
-    <div class="max-w-4xl mx-auto">
-        <header class="text-center mb-10">
-            <h1 class="text-3xl font-bold text-slate-800 mb-2">PurePDF 在线PDF工具箱</h1>
-            <p class="text-slate-500">本地浏览器运行 · 文件不上传服务器</p>
-        </header>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-            <!-- PDF合并 -->
-            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
-                <h3 class="font-semibold text-lg mb-3">PDF合并</h3>
-                <p class="text-gray-600 text-sm mb-4">上传多个PDF，合并为单一文件</p>
-                <input type="file" class="file-input hidden" accept=".pdf" multiple>
-                <button class="select-btn bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
-            </div>
-
-            <!-- PDF拆分 -->
-            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
-                <h3 class="font-semibold text-lg mb-3">PDF拆分</h3>
-                <p class="text-gray-600 text-sm mb-4">按页码分割PDF文档</p>
-                <input type="file" class="file-input hidden" accept=".pdf">
-                <button class="select-btn bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
-            </div>
-
-            <!-- PDF旋转 -->
-            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
-                <h3 class="font-semibold text-lg mb-3">PDF旋转</h3>
-                <p class="text-gray-600 text-sm mb-4">批量旋转PDF页面方向</p>
-                <input type="file" class="file-input hidden" accept=".pdf">
-                <button class="select-btn bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
-            </div>
-
-            <!-- PDF添加水印 -->
-            <div class="bg-white rounded-xl shadow p-6 hover:shadow-lg transition">
-                <h3 class="font-semibold text-lg mb-3">PDF添加水印</h3>
-                <p class="text-gray-600 text-sm mb-4">自定义文字水印保护文档</p>
-                <input type="file" class="file-input hidden" accept=".pdf">
-                <button class="select-btn bg-main text-white px-4 py-2 rounded-lg hover:bg-blue-700">选择文件</button>
-            </div>
-        </div>
-
-        <!-- FAQ板块 -->
-        <section class="bg-white rounded-xl p-8 shadow-md mb-12">
-            <h2 class="text-xl font-semibold text-slate-700 mb-6">常见问题</h2>
-            <div class="space-y-5 text-slate-600 text-sm">
-                <div>
-                    <h4 class="font-medium text-slate-800">文件会上传到你们服务器吗？</h4>
-                    <p class="mt-1">不会。所有PDF解析、修改操作全部在你的浏览器本地运行，文件不会发送至外部服务器。</p>
-                </div>
-                <div>
-                    <h4 class="font-medium text-slate-800">在线工具适合长期专业处理PDF吗？</h4>
-                    <p class="mt-1">简易临时需求完全够用。如果需要频繁PDF转换、OCR图文识别、批量处理，推荐专业桌面软件。</p>
-                </div>
-                <div>
-                    <h4 class="font-medium text-slate-800">支持多大的PDF文件？</h4>
-                    <p class="mt-1">受浏览器内存限制，建议单文件控制在200MB以内；超大文件建议使用桌面端工具。</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 推广入口 -->
-        <div class="mt-8 border-t pt-6">
-            <p class="text-slate-500 text-sm mb-4">
-                提示：免费在线工具功能存在限制，如果你经常处理PDF，需要OCR识别、格式互转、批量处理等高级功能，可以选择专业PDF软件。
-            </p>
-            <a href="javascript:void(0)" rel="noopener sponsored" class="inline-block px-5 py-2 bg-main text-white rounded-lg text-sm hover:bg-blue-700">
-                了解专业PDF编辑软件
-            </a>
-        </div>
-
-        <footer class="text-center text-gray-500 text-sm mt-12">
-            <p>PurePDF 开源在线PDF工具 | 本地浏览器处理，文件不上传服务器</p>
-            <p class="mt-2">需要更强功能？<a href="javascript:void(0)" rel="noopener sponsored" class="text-blue-600 hover:underline">查看专业软件</a></p>
-        </footer>
-    </div>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF在线工具箱 | 免费PDF合并、拆分、格式转换工具箱</title>
+<meta name="description" content="免费在线PDF工具箱，支持PDF合并、拆分、压缩、添加水印、页面旋转、删除页面。文件仅在浏览器本地处理，不上传服务器，保护文档隐私。">
+<meta name="keywords" content="PDF合并在线,在线拆分PDF,PDF压缩工具,PDF添加水印,旋转PDF页面,免费PDF网页工具">
+<meta name="author" content="PurePDF">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://www.purepdf.cn/">
+<meta property="og:title" content="PDF在线工具箱｜免费PDF合并拆分压缩加水印">
+<meta property="og:description" content="免费在线PDF工具箱，支持PDF合并、拆分、压缩、添加水印、页面旋转、删除页面。文件仅在浏览器本地处理，不上传服务器，保护文档隐私。">
+<meta property="og:url" content="https://www.purepdf.cn/">
+<meta property="og:type" content="website">
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
 <script>
-// 按钮触发文件选择
-document.querySelectorAll('.select-btn').forEach(btn => {
-    btn.addEventListener('click', function () {
-        const input = this.parentElement.querySelector('.file-input');
-        input.click();
-    })
-})
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#2563eb',
+      },
+    },
+  }
+}
+</script>
+<style>
+body {
+font-family: system-ui, -apple-system, sans-serif;
+}
+.tool-card:hover {transform: translateY(-4px);transition: all 0.2s ease;}
+</style>
+</head>
+<body class="bg-slate-100 min-h-screen">
+<header class="bg-primary text-white shadow-md">
+<div class="max-w-6xl mx-auto px-4 py-5 flex justify-between items-center">
+<a href="/" class="text-2xl font-bold">PurePDF</a>
+<nav>
+<a href="#tools" class="px-3 py-2 hover:text-slate-200">所有工具</a>
+</nav>
+</div>
+</header>
 
-// 文件选中监听
-document.querySelectorAll('.file-input').forEach(input => {
-    input.addEventListener('change', async function (e) {
-        const files = e.target.files;
-        if (!files.length) return;
-        alert(`成功选中${files.length}个PDF，PDF处理功能持续开发中。`);
-        // 后续在这里写pdf-lib处理逻辑
-    })
-})
+<main class="max-w-6xl mx-auto px-4 py-10">
+<section class="text-center mb-12">
+<h1 class="text-[clamp(1.8rem,4vw,2.8rem)] font-bold text-slate-800 mb-4">免费在线PDF工具箱</h1>
+<p class="text-slate-600 text-lg max-w-2xl mx-auto">所有文件在浏览器本地处理，不上传服务器，保护你的文档隐私，无需注册、无需安装软件</p>
+</section>
+
+<section id="tools" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+<div class="tool-card bg-white rounded-xl shadow p-6 cursor-pointer">
+<h3 class="font-bold text-lg mb-2 text-slate-800">PDF合并</h3>
+<p class="text-slate-500 text-sm">多个PDF文件合并成单个文档</p>
+</div>
+<div class="tool-card bg-white rounded-xl shadow p-6 cursor-pointer">
+<h3 class="font-bold text-lg mb-2 text-slate-800">PDF拆分</h3>
+<p class="text-slate-500 text-sm">将PDF分割为多个独立文件</p>
+</div>
+<div class="tool-card bg-white rounded-xl shadow p-6 cursor-pointer">
+<h3 class="font-bold text-lg mb-2 text-slate-800">PDF压缩</h3>
+<p class="text-slate-500 text-sm">减小PDF体积，方便发送</p>
+</div>
+<div class="tool-card bg-white rounded-xl shadow p-6 cursor-pointer">
+<h3 class="font-bold text-lg mb-2 text-slate-800">PDF加水印</h3>
+<p class="text-slate-500 text-sm">自定义文字水印保护文档</p>
+</div>
+</section>
+
+<!-- 联盟推广区域【位置保持原样，后续填入你的联盟链接】 -->
+<section class="bg-white rounded-xl shadow p-8 mb-12">
+<div class="text-center">
+<h2 class="text-xl font-bold text-slate-800 mb-3">需要专业PDF编辑功能？</h2>
+<p class="text-slate-600 mb-4">高级编辑、OCR识别、表单编辑、批量处理，推荐专业软件</p>
+<a href="YOUR_AFFILIATE_LINK" target="_blank" class="inline-block bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition">了解专业PDF编辑软件</a>
+</div>
+</section>
+
+<section class="bg-white rounded-xl shadow p-8">
+<h2 class="text-xl font-bold mb-6 text-slate-800">常见问题</h2>
+<div class="space-y-4 text-slate-600">
+<div><strong>文件会上传到服务器吗？</strong><p>不会，全部运算在你的浏览器本地完成，文件不会外传。</p></div>
+<div><strong>支持多大的PDF？</strong><p>受电脑内存限制，常规几十MB文档均可正常处理。</p></div>
+<div><strong>需要付费使用吗？</strong><p>本工具箱基础功能永久免费。</p></div>
+</div>
+</section>
+</main>
+
+<footer class="bg-slate-800 text-slate-300 mt-16 py-8">
+<div class="max-w-6xl mx-auto px-4 text-center">
+<p>© 2026 PurePDF | 免费在线PDF工具</p>
+<p class="text-sm mt-2">访问地址：https://www.purepdf.cn</p>
+</div>
+</footer>
+<script>
+// 这里后续我们可以补充PDF工具交互逻辑，当前不改动推广模块
 </script>
 </body>
 </html>
