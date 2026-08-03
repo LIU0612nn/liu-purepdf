@@ -27,6 +27,7 @@
     <style>
         .tool-card {transition: transform 0.24s ease;}
         .tool-card:hover {transform: translateY(-5px);}
+        .tool-card.active {border:2px solid #2563eb; background:#eff6ff;}
         .drop-active {border-color:#2563eb;background:#eff6ff;}
         html {scroll-behavior: smooth;}
     </style>
@@ -58,22 +59,22 @@
     <section id="tools" class="container mx-auto px-4 py-14">
         <h2 class="text-2xl font-bold text-center mb-10">PDF工具列表</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="merge">
+            <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="merge" data-name="PDF合并工具">
                 <i class="fa fa-files-o text-3xl text-primary mb-4"></i>
                 <h3 class="font-semibold text-lg">PDF合并</h3>
                 <p class="text-gray-500 text-sm mt-2">多个PDF合并成单一文档</p>
             </div>
-            <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="split">
+            <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="split" data-name="PDF拆分工具">
                 <i class="fa fa-scissors text-3xl text-primary mb-4"></i>
                 <h3 class="font-semibold text-lg">PDF拆分</h3>
                 <p class="text-gray-500 text-sm mt-2">分割PDF，提取指定页面</p>
             </div>
-            <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="compress">
+            <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="compress" data-name="PDF压缩工具">
                 <i class="fa fa-compress text-3xl text-primary mb-4"></i>
                 <h3 class="font-semibold text-lg">PDF压缩</h3>
                 <p class="text-gray-500 text-sm mt-2">缩小文件体积，便于传输</p>
             </div>
-            <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="watermark">
+            <div class="tool-card bg-white rounded-xl shadow p-6 border cursor-pointer" data-tool="watermark" data-name="PDF添加水印工具">
                 <i class="fa fa-font text-3xl text-primary mb-4"></i>
                 <h3 class="font-semibold text-lg">PDF添加水印</h3>
                 <p class="text-gray-500 text-sm mt-2">自定义文字水印保护文档</p>
@@ -84,6 +85,7 @@
     <!--文件上传处理区-->
     <section id="upload-area" class="container mx-auto px-4 py-6 hidden">
         <div class="max-w-2xl mx-auto">
+            <h3 id="currentToolTitle" class="text-xl font-bold text-center mb-4"></h3>
             <div id="dropbox" class="border-2 border-dashed border-gray-300 rounded-lg p-10 text-center">
                 <i class="fa fa-upload text-4xl text-gray-400 mb-3"></i>
                 <p class="mb-3">拖拽PDF到此区域，或点击选择文件</p>
@@ -111,7 +113,7 @@
         </div>
     </section>
 
-    <!-- ✅ 新增FAQ常见问题板块【站内SEO重点】 -->
+    <!--FAQ常见问题板块【站内SEO重点】 -->
     <section id="faq" class="container mx-auto px-4 py-14">
         <h2 class="text-2xl font-bold text-center mb-10">常见问题</h2>
         <div class="max-w-3xl mx-auto space-y-6">
@@ -160,11 +162,28 @@
         const startBtn = document.getElementById('start-process');
         const resetBtn = document.getElementById('reset-btn');
         const resultBox = document.getElementById('result-box');
+        const toolTitle = document.getElementById('currentToolTitle');
+        const allCards = document.querySelectorAll('.tool-card');
 
         //工具卡片点击
-        document.querySelectorAll('.tool-card').forEach(card => {
+        allCards.forEach(card => {
             card.addEventListener('click', function () {
+                //清除所有卡片高亮
+                allCards.forEach(c => c.classList.remove('active'));
+                //当前卡片高亮
+                this.classList.add('active');
+
                 currentTool = this.dataset.tool;
+                const toolName = this.dataset.name;
+                toolTitle.textContent = `当前选择：${toolName}`;
+
+                //合并允许多选，其他单选
+                if(currentTool === 'merge'){
+                    fileInput.multiple = true;
+                }else{
+                    fileInput.multiple = false;
+                }
+
                 uploadArea.classList.remove('hidden');
                 uploadArea.scrollIntoView({ behavior: 'smooth' });
                 selectedFiles = [];
@@ -203,7 +222,7 @@
 
         //处理按钮
         startBtn.addEventListener('click', async () => {
-            alert('文件加载完成，PDF处理模块就绪');
+            alert(`已选中【${toolTitle.textContent}】，PDF处理模块就绪`);
         })
     </script>
 </body>
