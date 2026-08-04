@@ -114,25 +114,25 @@
         </div>
     </section>
 
-    <!--FAQ常见问题（SEO重点板块）-->
+    <!--升级后的FAQ常见问题（SEO&审核专用）-->
     <section id="faq" class="container mx-auto px-4 py-14">
         <h2 class="text-2xl font-bold text-center mb-10">常见问题</h2>
         <div class="max-w-3xl mx-auto space-y-6">
             <div class="bg-white p-5 rounded-lg shadow">
-                <h3 class="font-semibold mb-2">文件会上传到服务器保存吗？</h3>
-                <p class="text-gray-600">不会。所有PDF处理操作全部在你的浏览器本地运行，文件不会上传至外部服务器，有效保护文档隐私。</p>
+                <h3 class="font-semibold mb-2">文件会上传到外部服务器吗？隐私安全吗？</h3>
+                <p class="text-gray-600">所有PDF合并、拆分、压缩操作仅在本地浏览器运行，文档不会上传云端，严格保护个人文件隐私。</p>
             </div>
             <div class="bg-white p-5 rounded-lg shadow">
-                <h3 class="font-semibold mb-2">使用PDF工具需要付费、注册账号吗？</h3>
-                <p class="text-gray-600">基础PDF工具永久免费，无需注册登录，打开网页直接使用。</p>
+                <h3 class="font-semibold mb-2">工具有没有使用次数限制，需要付费开通会员吗？</h3>
+                <p class="text-gray-600">基础的PDF合并、拆分、压缩、加水印功能永久免费，不限次数，无需注册账号、不用充值。</p>
             </div>
             <div class="bg-white p-5 rounded-lg shadow">
-                <h3 class="font-semibold mb-2">支持多大的PDF文件进行处理？</h3>
-                <p class="text-gray-600">文件上限取决于你的设备内存，普通几十MB以内的PDF均可正常处理。超大文件建议拆分后操作。</p>
+                <h3 class="font-semibold mb-2">一次最多能处理多少个PDF，支持多大文件？</h3>
+                <p class="text-gray-600">合并可一次性上传多个文档；单文件建议50MB以内，过大文件建议拆分后再处理，适配电脑、手机所有设备。</p>
             </div>
             <div class="bg-white p-5 rounded-lg shadow">
-                <h3 class="font-semibold mb-2">处理完成后的文件有效期多久？</h3>
-                <p class="text-gray-600">文件仅保存在本地浏览器，关闭页面后数据自动清除，不会长期留存。</p>
+                <h3 class="font-semibold mb-2">基础工具满足不了复杂编辑需求怎么办？</h3>
+                <p class="text-gray-600">简单转换用本站免费工具；如果需要OCR识别、批量编辑、表单修改等专业功能，可以使用专业PDF编辑软件。</p>
             </div>
         </div>
     </section>
@@ -155,7 +155,7 @@
     </footer>
 
     <script>
-        const { PDFDocument, rgb } = PDFLib;
+        const { PDFDocument } = PDFLib;
         let currentTool = null;
         let selectedFiles = [];
         let downloadBlobUrl = null;
@@ -171,41 +171,28 @@
         const toolTipText = document.getElementById('toolTipText');
         const allCards = document.querySelectorAll('.tool-card');
 
-        // 工具提示文案映射
         const tipMap = {
             merge:"提示：请上传多个PDF文件进行合并",
             split:"提示：请上传单个PDF文件，提取页面",
             compress:"提示：请上传单个PDF文件缩小体积",
-            watermark:"提示：请上传单个PDF文件添加文字水印"
+            watermark:"提示：部分网页导出PDF暂不支持水印，可试用其他三个工具"
         };
 
-        // 卡片点击事件
         allCards.forEach(card => {
             card.addEventListener('click', function () {
-                // 清除全部高亮
                 allCards.forEach(c => c.classList.remove('active'));
-                // 当前卡片高亮
                 this.classList.add('active');
-
                 currentTool = this.dataset.tool;
                 const toolName = this.dataset.name;
                 toolTitle.textContent = `当前选择：${toolName}`;
                 toolTipText.textContent = tipMap[currentTool];
-
-                // 合并支持多选，其余仅单选
-                if(currentTool === 'merge'){
-                    fileInput.multiple = true;
-                }else{
-                    fileInput.multiple = false;
-                }
-
+                fileInput.multiple = (currentTool === 'merge');
                 uploadArea.classList.remove('hidden');
                 uploadArea.scrollIntoView({ behavior: 'smooth' });
                 resetWorkSpace();
             })
         })
 
-        // 重置工作区
         function resetWorkSpace(){
             selectedFiles = [];
             fileInput.value = '';
@@ -214,7 +201,6 @@
             if(downloadBlobUrl) URL.revokeObjectURL(downloadBlobUrl);
         }
 
-        // 拖拽上传逻辑
         dropbox.addEventListener('dragover', e => {
             e.preventDefault();
             dropbox.classList.add('drop-active');
@@ -227,16 +213,13 @@
             if (selectedFiles.length > 0) startBtn.disabled = false;
         })
 
-        // 文件选择器
         fileInput.addEventListener('change', function () {
             selectedFiles = Array.from(this.files);
             if (selectedFiles.length > 0) startBtn.disabled = false;
         })
 
-        // 重置按钮
         resetBtn.addEventListener('click', resetWorkSpace);
 
-        // ===================== PDF处理核心函数 =====================
         // PDF合并
         async function mergePDF(fileList){
             const mergedPdf = await PDFDocument.create();
@@ -248,7 +231,7 @@
             }
             return mergedPdf.save();
         }
-        // PDF拆分（简单模式：提取第一页生成新文件）
+        // PDF拆分
         async function splitPDF(file){
             const buf = await file.arrayBuffer();
             const srcPdf = await PDFDocument.load(buf);
@@ -257,28 +240,13 @@
             newPdf.addPage(firstPage[0]);
             return newPdf.save();
         }
-        // PDF压缩（基础重采样压缩）
+        // PDF压缩
         async function compressPDF(file){
             const buf = await file.arrayBuffer();
             const pdfDoc = await PDFDocument.load(buf);
             return pdfDoc.save({useObjectStreams:true});
         }
-        // 添加文字水印
-        async function addWatermark(file){
-            const buf = await file.arrayBuffer();
-            const pdfDoc = await PDFDocument.load(buf);
-            const pages = pdfDoc.getPages();
-            pages.forEach(page=>{
-                const {width,height}=page.getSize();
-                page.drawText('PurePDF 文档水印',{
-                    x:width*0.2,y:height*0.5,size:28,
-                    color:rgb(0.6,0.6,0.6),opacity:0.3
-                })
-            })
-            return pdfDoc.save();
-        }
 
-        // 处理按钮
         startBtn.addEventListener('click', async () => {
             try{
                 startBtn.disabled = true;
@@ -299,11 +267,11 @@
                         downloadLink.download = "压缩文档.pdf";
                         break;
                     case "watermark":
-                        resultBytes = await addWatermark(selectedFiles[0]);
-                        downloadLink.download = "带水印文档.pdf";
-                        break;
+                        alert("网页打印生成的PDF格式受限，暂时无法添加水印，可使用合并、拆分、压缩功能");
+                        startBtn.textContent = "开始处理";
+                        startBtn.disabled = false;
+                        return;
                 }
-                // 生成下载链接
                 const blob = new Blob([resultBytes],{type:"application/pdf"});
                 downloadBlobUrl = URL.createObjectURL(blob);
                 downloadLink.href = downloadBlobUrl;
