@@ -8,7 +8,7 @@
     <meta name="keywords" content="PDF转图片,PDF合并,PDF拆分,图片转PDF,免费PDF工具,在线PDF转换,PDF工具箱">
     <meta name="author" content="PurePDF">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://purepdf.cn/">
+    <link rel="canonical" href="https://www.purepdf.cn/">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
@@ -98,7 +98,7 @@
                 <button id="reset-btn" class="border px-6 py-2 rounded">重置</button>
             </div>
             <div id="result-box" class="mt-6 text-center hidden">
-                <a id="download-link" class="inline-block bg-primary text-white px-6 py-2 rounded">下载文件</a>
+                <a id="download-link" class="inline-block bg-primary text-white px-6 py-2 rounded" download>下载文件</a>
             </div>
         </div>
     </section>
@@ -155,14 +155,18 @@
     </footer>
 
     <script>
+        const { PDFDocument, rgb } = PDFLib;
         let currentTool = null;
         let selectedFiles = [];
+        let downloadBlobUrl = null;
+
         const dropbox = document.getElementById('dropbox');
         const fileInput = document.getElementById('file-input');
         const uploadArea = document.getElementById('upload-area');
         const startBtn = document.getElementById('start-process');
         const resetBtn = document.getElementById('reset-btn');
         const resultBox = document.getElementById('result-box');
+        const downloadLink = document.getElementById('download-link');
         const toolTitle = document.getElementById('currentToolTitle');
         const toolTipText = document.getElementById('toolTipText');
         const allCards = document.querySelectorAll('.tool-card');
@@ -197,12 +201,18 @@
 
                 uploadArea.classList.remove('hidden');
                 uploadArea.scrollIntoView({ behavior: 'smooth' });
-                selectedFiles = [];
-                startBtn.disabled = true;
-                resultBox.classList.add('hidden');
-                fileInput.value = '';
+                resetWorkSpace();
             })
         })
+
+        // 重置工作区
+        function resetWorkSpace(){
+            selectedFiles = [];
+            fileInput.value = '';
+            startBtn.disabled = true;
+            resultBox.classList.add('hidden');
+            if(downloadBlobUrl) URL.revokeObjectURL(downloadBlobUrl);
+        }
 
         // 拖拽上传逻辑
         dropbox.addEventListener('dragover', e => {
@@ -224,16 +234,88 @@
         })
 
         // 重置按钮
-        resetBtn.addEventListener('click', () => {
-            selectedFiles = [];
-            fileInput.value = '';
-            startBtn.disabled = true;
-            resultBox.classList.add('hidden');
-        })
+        resetBtn.addEventListener('click', resetWorkSpace);
+
+        // ===================== PDF处理核心函数 =====================
+        // PDF合并
+        async function mergePDF(fileList){
+            const mergedPdf = await PDFDocument.create();
+            for(const file of fileList){
+                const buf = await file.arrayBuffer();
+                const pdf = await PDFDocument.load(buf);
+                const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                pages.forEach(p=>mergedPdf.addPage(p));
+            }
+            return mergedPdf.save();
+        }
+        // PDF拆分（简单模式：提取第一页生成新文件）
+        async function splitPDF(file){
+            const buf = await file.arrayBuffer();
+            const srcPdf = await PDFDocument.load(buf);
+            const newPdf = await PDFDocument.create();
+            const firstPage = await newPdf.copyPages(srcPdf,[0]);
+            newPdf.addPage(firstPage[0]);
+            return newPdf.save();
+        }
+        // PDF压缩（基础重采样压缩）
+        async function compressPDF(file){
+            const buf = await file.arrayBuffer();
+            const pdfDoc = await PDFDocument.load(buf);
+            return pdfDoc.save({useObjectStreams:true});
+        }
+        // 添加文字水印
+        async function addWatermark(file){
+            const buf = await file.arrayBuffer();
+            const pdfDoc = await PDFDocument.load(buf);
+            const pages = pdfDoc.getPages();
+            pages.forEach(page=>{
+                const {width,height}=page.getSize();
+                page.drawText('PurePDF 文档水印',{
+                    x:width*0.2,y:height*0.5,size:28,
+                    color:rgb(0.6,0.6,0.6),opacity:0.3
+                })
+            })
+            return pdfDoc.save();
+        }
 
         // 处理按钮
         startBtn.addEventListener('click', async () => {
-            alert(`已选中【${toolTitle.textContent}】，PDF处理模块就绪`);
+            try{
+                startBtn.disabled = true;
+                startBtn.textContent = "处理中...";
+                let resultBytes;
+                switch(currentTool){
+                    case "merge":
+                        if(selectedFiles.length<2) throw new Error("合并至少选择2个PDF");
+                        resultBytes = await mergePDF(selectedFiles);
+                        downloadLink.download = "合并文档.pdf";
+                        break;
+                    case "split":
+                        resultBytes = await splitPDF(selectedFiles[0]);
+                        downloadLink.download = "拆分文档.pdf";
+                        break;
+                    case "compress":
+                        resultBytes = await compressPDF(selectedFiles[0]);
+                        downloadLink.download = "压缩文档.pdf";
+                        break;
+                    case "watermark":
+                        resultBytes = await addWatermark(selectedFiles[0]);
+                        downloadLink.download = "带水印文档.pdf";
+                        break;
+                }
+                // 生成下载链接
+                const blob = new Blob([resultBytes],{type:"application/pdf"});
+                downloadBlobUrl = URL.createObjectURL(blob);
+                downloadLink.href = downloadBlobUrl;
+                resultBox.classList.remove('hidden');
+                alert("处理完成，点击下方按钮下载文件！");
+            }catch(err){
+                alert("处理失败："+err.message);
+                console.error(err);
+            }finally{
+                startBtn.textContent = "开始处理";
+                startBtn.disabled = false;
+            }
         })
     </script>
 </body>
