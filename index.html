@@ -3,411 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PurePDF｜免费在线PDF合并、拆分、格式转换工具箱</title>
-    <meta name="description" content="PurePDF提供免费PDF合并、PDF拆分工具。文件仅在浏览器本地处理，不上传服务器，保护你的文档隐私，无需注册安装。">
-    <meta name="keywords" content="PDF合并,PDF拆分,免费PDF工具,在线PDF转换,PDF工具箱">
+    <title>PurePDF｜免费在线PDF工具箱</title>
+    <meta name="description" content="PurePDF提供免费PDF合并、PDF拆分、PDF压缩、水印、PDF转图片、图片转PDF工具。全部在浏览器本地处理，不上传服务器，保护隐私，无需注册。">
+    <meta name="keywords" content="PDF合并,PDF拆分,PDF压缩,PDF水印,PDF转图片,图片转PDF,免费在线PDF工具">
     <meta name="author" content="PurePDF">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://purepdf.cn/">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
-        header {
-            background-color: #2b57d8;
-            color: white;
-            padding:16px 20px;
-        }
-        .header-top{
-            display:flex;
-            justify-content: space-between;
-            align-items:center;
-            flex-wrap:wrap;
-            gap:12px;
-        }
-        .logo-text{
-            font-size:22px;
-            font-weight:bold;
-        }
-        nav a{
-            color:#fff;
-            text-decoration:none;
-            margin-left:18px;
-            font-size:16px;
-        }
-        .banner{
-            background:#2b57d8;
-            color:white;
-            text-align:center;
-            padding:40px 20px;
-        }
-        .banner h1{
-            font-size:34px;
-            margin-bottom:16px;
-        }
-        .banner p{
-            font-size:17px;
-            opacity:0.92;
-            line-height:1.6;
-            max-width:720px;
-            margin:0 auto 24px;
-        }
-        .btn-white{
-            background:#fff;
-            color:#2b57d8;
-            border:none;
-            padding:14px 32px;
-            border-radius:12px;
-            font-size:17px;
-            cursor:pointer;
-        }
-        .container{
-            max-width:920px;
-            margin:0 auto;
-            padding:40px 20px;
-        }
-        .section-title{
-            text-align:center;
-            font-size:28px;
-            margin-bottom:32px;
-        }
-        .tool-card-wrap{
-            display:grid;
-            gap:18px;
-            margin-bottom:48px;
-        }
-        .tool-card{
-            border:2px solid #e8e8e8;
-            border-radius:16px;
-            padding:24px 20px;
-            cursor:pointer;
-            transition:0.25s;
-        }
-        .tool-card.active{
-            border-color:#2b57d8;
-            background:#e8f0ff;
-        }
-        .tool-card .icon{
-            font-size:36px;
-            margin-bottom:10px;
-        }
-        .tool-card h3{
-            font-size:20px;
-            margin-bottom:6px;
-        }
-        .tool-card p{
-            color:#666;
-        }
-        .upload-area{
-            border:2px dashed #b8b8b8;
-            border-radius:16px;
-            padding:40px 20px;
-            text-align:center;
-            margin-bottom:20px;
-        }
-        .upload-icon{
-            font-size:44px;
-            color:#777;
-            margin-bottom:14px;
-        }
-        .tip-text{
-            color:#555;
-            margin-bottom:18px;
-            font-size:16px;
-        }
-        .btn-blue{
-            background:#2b57d8;
-            color:#fff;
-            border:none;
-            padding:13px 34px;
-            border-radius:10px;
-            font-size:17px;
-            cursor:pointer;
-        }
-        .btn-green{
-            background:#37b868;
-            color:#fff;
-            border:none;
-            padding:13px 30px;
-            border-radius:10px;
-            font-size:17px;
-            cursor:pointer;
-        }
-        .btn-gray{
-            background:#f1f1f1;
-            border:none;
-            padding:13px 30px;
-            border-radius:10px;
-            font-size:17px;
-            cursor:pointer;
-        }
-        .btn-group{
-            display:flex;
-            gap:16px;
-            justify-content:center;
-            flex-wrap:wrap;
-        }
-        .file-list{
-            margin:22px 0;
-            text-align:left;
-        }
-        .file-item{
-            background:#f3f6fc;
-            padding:10px 14px;
-            border-radius:8px;
-            margin-bottom:8px;
-            font-size:15px;
-        }
-        .affiliate-block{
-            background:#e8f0ff;
-            padding:42px 20px;
-            text-align:center;
-            margin:50px 0;
-            border-radius:16px;
-        }
-        .btn-aff{
-            background:#2b57d8;
-            color:#fff;
-            border:none;
-            padding:15px 36px;
-            border-radius:12px;
-            font-size:17px;
-            cursor:pointer;
-        }
-        .faq-item{
-            background:#f7f8fa;
-            border-radius:14px;
-            padding:20px;
-            margin-bottom:16px;
-        }
-        footer{
-            background:#222938;
-            color:#cccccc;
-            text-align:center;
-            padding:30px 20px;
-        }
-        .hidden{
-            display:none;
-        }
+        *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;}
+        header{background:#2b57d8;color:#fff;padding:16px 20px;}
+        .header-top{max-width:960px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+        .logo{font-size:22px;font-weight:bold;}
+        nav a{color:#fff;text-decoration:none;margin-left:16px;}
+        .banner{background:#2b57d8;color:white;text-align:center;padding:44px 20px;}
+        .banner h1{font-size:32px;margin-bottom:14px;}
+        .banner p{max-width:720px;margin:0 auto;font-size:17px;opacity:0.9;line-height:1.6;}
+        .container{max-width:920px;margin:0 auto;padding:40px 20px;}
+        .title{text-align:center;font-size:28px;margin-bottom:36px;}
+        .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;}
+        .card{border:2px solid #e7e9ef;border-radius:16px;padding:26px 20px;text-align:center;cursor:pointer;transition:0.2s;}
+        .card:hover{border-color:#2b57d8;background:#f0f4ff;}
+        .card h3{margin:10px 0 8px;font-size:20px;}
+        .card p{color:#555;font-size:15px;}
+        footer{background:#222938;color:#ccc;text-align:center;padding:30px 20px;margin-top:60px;}
+        footer a{color:#b0c4ff;text-decoration:none;}
     </style>
 </head>
 <body>
 <header>
     <div class="header-top">
-        <div class="logo-text">PurePDF 在线PDF工具箱</div>
+        <div class="logo">PurePDF 在线PDF工具箱</div>
         <nav>
-            <a href="#">全部工具</a>
-            <a href="#">专业软件</a>
-            <a href="#">常见问题</a>
-            <a href="#">关于</a>
+            <a href="index.html">首页</a>
+            <a href="merge.html">PDF合并</a>
+            <a href="split.html">PDF拆分</a>
+            <a href="compress.html">PDF压缩</a>
+            <a href="watermark.html">PDF水印</a>
         </nav>
     </div>
 </header>
-
 <div class="banner">
-    <h1>免费在线PDF处理工具箱</h1>
-    <p>所有运算在浏览器本地完成，文件不上传服务器，保护隐私，无需注册</p>
-    <button class="btn-white">查看全部工具</button>
+    <h1>免费在线PDF工具箱</h1>
+    <p>所有文档仅在你的浏览器本地运算，文件不会上传服务器，保护隐私，无需注册、无需安装软件。</p>
 </div>
-
 <div class="container">
-    <h2 class="section-title">PDF工具列表</h2>
-    <div class="tool-card-wrap">
-        <div class="tool-card active" data-tool="merge">
-            <div class="icon">🗗</div>
+    <h2 class="title">全部工具</h2>
+    <div class="grid">
+        <div class="card" onclick="location.href='merge.html'">
+            <div style="font-size:40px;">🗗</div>
             <h3>PDF合并</h3>
-            <p>多个PDF合并成单一文档</p>
+            <p>多个PDF合并成一个文档</p>
         </div>
-        <div class="tool-card" data-tool="split">
-            <div class="icon">✂️</div>
+        <div class="card" onclick="location.href='split.html'">
+            <div style="font-size:40px;">✂️</div>
             <h3>PDF拆分</h3>
-            <p>分割PDF，提取指定页面</p>
+            <p>把PDF分割成多个小文件</p>
         </div>
-        <div class="tool-card" data-tool="compress">
-            <div class="icon">↔</div>
+        <div class="card" onclick="location.href='compress.html'">
+            <div style="font-size:40px;">🗜</div>
             <h3>PDF压缩</h3>
-            <p>缩小文件体积，便于传输</p>
+            <p>减小PDF文件体积</p>
         </div>
-        <div class="tool-card" data-tool="watermark">
-            <div class="icon">🅰</div>
+        <div class="card" onclick="location.href='watermark.html'">
+            <div style="font-size:40px;">🅰</div>
             <h3>PDF添加水印</h3>
-            <p>自定义文字水印保护文档</p>
+            <p>给PDF增加文字水印</p>
         </div>
-    </div>
-
-    <div>
-        <h3 style="text-align:center;font-size:22px;margin-bottom:12px;">当前选择: <span id="currentToolName">PDF合并工具</span></h3>
-        <p class="tip-text" style="text-align:center;" id="toolHint">提示：电脑按住Ctrl多选PDF；手机多次点击选择文件依次添加文档，进行合并</p>
-
-        <div class="upload-area">
-            <div class="upload-icon">⬆</div>
-            <p class="tip-text">拖拽PDF到此区域，或点击选择文件</p>
-            <input type="file" id="fileInput" accept=".pdf" multiple hidden>
-            <button class="btn-blue" id="selectFileBtn">选择文件</button>
+        <div class="card" onclick="location.href='pdf-to-image.html'">
+            <div style="font-size:40px;">🖼</div>
+            <h3>PDF转图片</h3>
+            <p>PDF页面导出为图片</p>
         </div>
-
-        <div class="file-list" id="fileListWrap"></div>
-
-        <div class="btn-group">
-            <button class="btn-green" id="startBtn">开始处理</button>
-            <button class="btn-gray" id="resetBtn">重置</button>
+        <div class="card" onclick="location.href='image-to-pdf.html'">
+            <div style="font-size:40px;">📄</div>
+            <h3>图片转PDF</h3>
+            <p>多张图片生成PDF文档</p>
         </div>
-    </div>
-
-    <div class="affiliate-block">
-        <h3 style="margin-bottom:14px;font-size:22px;">需要专业PDF编辑功能？</h3>
-        <p style="margin-bottom:24px;font-size:16px;color:#444;">OCR文字识别、表单编辑、批量处理可选用专业软件</p>
-        <button class="btn-aff" id="affBtn">了解专业PDF编辑软件</button>
-    </div>
-
-    <h2 class="section-title">常见问题</h2>
-    <div class="faq-wrap">
-        <div class="faq-item">
-            <h4>文件会上传到外部服务器吗？隐私安全吗？</h4>
-            <p style="margin-top:8px;color:#444;line-height:1.6;">所有PDF操作均在本地浏览器内完成，文件不会上传到外部服务器。免安装、无需注册，打开网页即可免费使用PDF合并、拆分工具。</p>
-        </div>
-        <div class="faq-item">
-            <h4>工具有没有使用次数限制，需要付费开通会员吗？</h4>
-            <p style="margin-top:8px;color:#444;line-height:1.6;">基础的PDF合并、拆分功能永久免费，不限次数，无需注册账号、不用充值。</p>
-        </div>
-        <div class="faq-item">
-            <h4>一次最多能处理多少个PDF，支持多大文件？</h4>
-            <p style="margin-top:8px;color:#444;line-height:1.6;">合并可一次性上传多个文档；单文件建议50MB以内，过大文件建议拆分后再处理，适配电脑、手机所有设备。</p>
-        </div>
-        <div class="faq-item">
-            <h4>基础工具满足不了复杂编辑需求怎么办？</h4>
-            <p style="margin-top:8px;color:#444;line-height:1.6;">简单转换用本站免费工具；如果需要OCR识别、批量编辑、表单修改等专业功能，可以使用专业PDF编辑软件。</p>
-        </div>
-    </div>
-
-    <div style="margin-top:60px;">
-        <h2 class="section-title">关于PurePDF</h2>
-        <p style="text-align:center;max-width:700px;margin:0 auto;line-height:1.7;color:#444;font-size:16px;">
-            所有PDF操作在本地浏览器完成，文件不会上传至外部服务器。免安装、无需注册，打开网页即可免费使用各类PDF合并、拆分工具。
-        </p>
     </div>
 </div>
-
 <footer>
     <p>PurePDF © 2026 | 本地在线PDF工具箱</p>
-    <p style="margin-top:10px;"><a href="#" style="color:#b0c4ff;text-decoration:none;">隐私政策</a></p>
+    <p style="margin-top:8px;"><a href="#">隐私政策</a></p>
 </footer>
-
-<script>
-    // 当前选中工具
-    let currentTool = "merge";
-    // 文件数组：追加模式，不覆盖
-    let selectedFiles = [];
-
-    // DOM
-    const toolCards = document.querySelectorAll(".tool-card");
-    const fileInput = document.getElementById("fileInput");
-    const selectFileBtn = document.getElementById("selectFileBtn");
-    const fileListWrap = document.getElementById("fileListWrap");
-    const startBtn = document.getElementById("startBtn");
-    const resetBtn = document.getElementById("resetBtn");
-    const currentToolName = document.getElementById("currentToolName");
-    const toolHint = document.getElementById("toolHint");
-    const affBtn = document.getElementById("affBtn");
-
-    // 工具切换
-    toolCards.forEach(card=>{
-        card.addEventListener("click",()=>{
-            toolCards.forEach(c=>c.classList.remove("active"));
-            card.classList.add("active");
-            currentTool = card.dataset.tool;
-            updateToolUI();
-        })
-    })
-
-    function updateToolUI(){
-        const toolMap = {
-            merge:{name:"PDF合并工具",hint:"提示：电脑按住Ctrl多选PDF；手机多次点击选择文件依次添加文档，进行合并",multiple:true},
-            split:{name:"PDF拆分工具",hint:"提示：仅需要上传1个PDF文件",multiple:false},
-            compress:{name:"PDF压缩工具",hint:"提示：仅需要上传1个PDF文件",multiple:false},
-            watermark:{name:"PDF添加水印工具",hint:"提示：仅需要上传1个PDF文件",multiple:false}
-        }
-        const cfg = toolMap[currentTool];
-        currentToolName.innerText = cfg.name;
-        toolHint.innerText = cfg.hint;
-        // 动态控制多选开关
-        if(cfg.multiple){
-            fileInput.setAttribute("multiple","multiple");
-        }else{
-            fileInput.removeAttribute("multiple");
-        }
-    }
-
-    // 打开文件选择弹窗
-    selectFileBtn.addEventListener("click",()=>{
-        fileInput.click();
-    })
-
-    // 文件选择：追加到数组，不覆盖旧文件
-    fileInput.addEventListener("change",function(e){
-        const files = Array.from(e.target.files);
-        if(files.length === 0) return;
-        // 追加
-        selectedFiles = [...selectedFiles,...files];
-        renderFileList();
-        // 清空input，允许重复选同一个文件
-        fileInput.value = "";
-    })
-
-    // 渲染已选文件列表
-    function renderFileList(){
-        fileListWrap.innerHTML = "";
-        if(selectedFiles.length === 0) return;
-        selectedFiles.forEach((f,idx)=>{
-            const div = document.createElement("div");
-            div.className = "file-item";
-            div.innerText = `${idx+1}. ${f.name}`;
-            fileListWrap.appendChild(div);
-        })
-    }
-
-    // 重置
-    resetBtn.addEventListener("click",()=>{
-        selectedFiles = [];
-        fileInput.value = "";
-        renderFileList();
-    })
-
-       // 开始处理（当前只做校验，业务逻辑后续完善）
-    startBtn.addEventListener("click",()=>{
-        if(selectedFiles.length === 0){
-            alert("请先选择PDF文件");
-            return;
-        }
-        if(currentTool === "merge" && selectedFiles.length <2){
-            alert("合并功能至少需要2个PDF文件");
-            return;
-        }
-        if(["split","compress","watermark"].includes(currentTool) && selectedFiles.length!==1){
-            alert("该工具仅支持上传1个PDF");
-            return;
-        }
-
-        // 根据当前工具给出对应提示
-        if(currentTool === "merge"){
-            alert("合并校验通过，PDF合并内核逻辑待后续接入开发");
-        }else if(currentTool === "split"){
-            alert("拆分校验通过，PDF拆分内核逻辑待后续接入开发");
-        }else{
-            alert("已校验通过；压缩、水印功能待后续迭代开发。");
-        }
-    })
-
-    // 联盟按钮，后续替换为真实联盟链接，现在不跳转404
-    affBtn.addEventListener("click",()=>{
-        alert("此处后续替换联盟推广链接");
-    })
-
-    // 初始化
-    updateToolUI();
-</script>
 </body>
 </html>
