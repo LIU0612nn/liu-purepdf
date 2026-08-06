@@ -376,7 +376,7 @@
         renderFileList();
     })
 
-    // 开始处理（当前只做校验，业务逻辑后续完善）
+       // 开始处理（当前只做校验，业务逻辑后续完善）
     startBtn.addEventListener("click",()=>{
         if(selectedFiles.length === 0){
             alert("请先选择PDF文件");
@@ -390,7 +390,15 @@
             alert("该工具仅支持上传1个PDF");
             return;
         }
-        alert("已校验通过；压缩、水印功能待后续迭代开发。");
+
+        // 根据当前工具给出对应提示
+        if(currentTool === "merge"){
+            alert("合并校验通过，PDF合并内核逻辑待后续接入开发");
+        }else if(currentTool === "split"){
+            alert("拆分校验通过，PDF拆分内核逻辑待后续接入开发");
+        }else{
+            alert("已校验通过；压缩、水印功能待后续迭代开发。");
+        }
     })
 
     // 联盟按钮，后续替换为真实联盟链接，现在不跳转404
