@@ -1,0 +1,22 @@
+name: Deploy site to gh‑pages
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu‑latest
+    steps:
+      - name: Checkout main分支全部文件
+        uses: actions/checkout@v4
+
+      - name: 把main根目录全部文件部署到gh‑pages分支
+        uses: peaceiris/actions‑gh‑pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./   # 关键！代表把main根目录所有文件全部复制过去
+          publish_branch: gh‑pages
+          force_orphan: true
