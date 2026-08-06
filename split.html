@@ -1,1 +1,120 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF拆分 - PurePDF</title>
+    <meta name="description" content="PDF在线拆分工具，本地浏览器处理，保护隐私。">
+    <link rel="canonical" href="https://purepdf.cn/split.html">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <style>
+        * {margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Roboto,sans-serif;}
+        header{background:#2b57d8;color:#fff;padding:16px 20px;}
+        .header-wrap{max-width:920px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+        .logo{font-size:20px;font-weight:bold;}
+        header a{color:#fff;text-decoration:none;margin:0 8px;}
+        .container{max-width:800px;margin:40px auto;padding:0 20px;}
+        h1{text-align:center;margin-bottom:30px;font-size:26px;}
+        .drop-area{border:2px dashed #999;border-radius:12px;padding:50px 20px;text-align:center;margin-bottom:20px;transition:0.2s;}
+        .drop-area.active{border-color:#2b57d8;background:#f0f4ff;}
+        input[type="file"]{display:none;}
+        .btn{background:#2b57d8;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:16px;cursor:pointer;margin:6px;}
+        .btn:disabled{opacity:0.5;cursor:not-allowed;}
+        .file-item{padding:8px 12px;background:#f3f4f6;border-radius:6px;margin:6px 0;}
+        .tip{color:#555;margin:10px 0;}
+        footer{background:#222938;color:#ccc;text-align:center;padding:24px;margin-top:60px;font-size:14px;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-wrap">
+        <div class="logo"><a href="index.html">PurePDF</a></div>
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="merge.html">合并</a>
+            <a href="split.html">拆分</a>
+            <a href="compress.html">压缩</a>
+            <a href="watermark.html">水印</a>
+        </nav>
+    </div>
+</header>
+<div class="container">
+    <h1>PDF拆分</h1>
+    <div class="drop-area" id="dropZone">
+        <p class="tip">拖拽1个PDF到此，或者点击按钮选择PDF文件</p>
+        <button class="btn" id="selectBtn">选择PDF文件</button>
+        <input type="file" id="fileInput" accept=".pdf">
+    </div>
+    <div id="fileShow"></div>
+    <p class="tip">本工具会把PDF每一页拆分为独立PDF文件，批量下载</p>
+    <div style="text-align:center;">
+        <button class="btn" id="splitBtn">开始拆分</button>
+    </div>
+</div>
+<footer>PurePDF ©2026｜全部处理在浏览器本地，文件不上传服务器</footer>
+
+<script>
+const { PDFDocument } = PDFLib;
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const selectBtn = document.getElementById('selectBtn');
+const fileShow = document.getElementById('fileShow');
+const splitBtn = document.getElementById('splitBtn');
+
+let pdfFile = null;
+
+selectBtn.onclick = ()=> fileInput.click();
+fileInput.onchange = e=>{
+    if(e.target.files[0]){
+        pdfFile = e.target.files[0];
+        fileShow.innerHTML = `<div class="file-item">${pdfFile.name}</div>`;
+    }
+};
+
+dropZone.ondragover = e=>{e.preventDefault();dropZone.classList.add('active');};
+dropZone.ondragleave = ()=> dropZone.classList.remove('active');
+dropZone.ondrop = e=>{
+    e.preventDefault();
+    dropZone.classList.remove('active');
+    if(e.dataTransfer.files[0]){
+        pdfFile = e.dataTransfer.files[0];
+        fileShow.innerHTML = `<div class="file-item">${pdfFile.name}</div>`;
+    }
+};
+
+splitBtn.onclick = async ()=>{
+    if(!pdfFile){alert("请先选择PDF");return;}
+    splitBtn.disabled=true;
+    try{
+        const buf = await pdfFile.arrayBuffer();
+        const srcPdf = await PDFDocument.load(buf);
+        const pageCount = srcPdf.getPageCount();
+        for(let i=0;i<pageCount;i++){
+            const newPdf = await PDFDocument.create();
+            const [page] = await newPdf.copyPages(srcPdf,[i]);
+            newPdf.addPage(page);
+            const bytes = await newPdf.save();
+            download(bytes, `page_${i+1}.pdf`, "application/pdf");
+        }
+    }catch(err){
+        alert("拆分失败："+err.message);
+        console.error(err);
+    }
+    splitBtn.disabled=false;
+};
+
+function download(bytes, filename, mime){
+    const blob = new Blob([bytes], {type:mime});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
