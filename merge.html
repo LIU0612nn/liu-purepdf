@@ -1,0 +1,158 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"><title>PDF合并 - PurePDF在线PDF工具</title>
+<meta name="description" content="在线PDF合并工具，浏览器本地完成PDF文件合并，无需上传服务器，简单拖拽即可把多个PDF合并成一个文档。">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF合并 - PurePDF</title>
+    <meta name="description" content="在线PDF合并工具，浏览器本地完成合并，不上传到服务器，保护隐私，无需注册。">
+    <link rel="canonical" href="https://purepdf.cn/merge.html">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <style>
+        * {margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,Roboto,sans-serif;}
+        header{background:#2b57d8;color:#fff;padding:16px 20px;}
+        .header-wrap{max-width:920px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+        .logo{font-size:20px;font-weight:bold;}
+        header a{color:#fff;text-decoration:none;margin:0 8px;}
+        .container{max-width:800px;margin:40px auto;padding:0 20px;}
+        h1{text-align:center;margin-bottom:30px;font-size:26px;}
+        .drop-area{border:2px dashed #999;border-radius:12px;padding:50px 20px;text-align:center;margin-bottom:20px;transition:0.2s;}
+        .drop-area.active{border-color:#2b57d8;background:#f0f4ff;}
+        input[type="file"]{display:none;}
+        .btn{background:#2b57d8;color:#fff;border:none;padding:12px 22px;border-radius:8px;font-size:16px;cursor:pointer;margin:6px;}
+        .btn:disabled{opacity:0.5;cursor:not-allowed;}
+        .file-list{margin:20px 0;}
+        .file-item{padding:8px 12px;background:#f3f4f6;border-radius:6px;margin:6px 0;}
+        .tip{color:#555;margin:10px 0;}
+        footer{background:#222938;color:#ccc;text-align:center;padding:24px;margin-top:60px;font-size:14px;}
+    </style>
+</head>
+<body>
+<header>
+    <div class="header-wrap">
+        <div class="logo"><a href="index.html">PurePDF</a></div>
+        <nav>
+            <a href="index.html">首页</a>
+            <a href="merge.html">合并</a>
+            <a href="split.html">拆分</a>
+            <a href="compress.html">压缩</a>
+            <a href="watermark.html">水印</a>
+        </nav>
+    </div>
+</header>
+<div class="container">
+    <h1>PDF合并</h1>
+    <div class="drop-area" id="dropZone">
+        <p class="tip">拖拽PDF文件到此处，或者点击下方按钮选择文件（至少2个PDF）</p>
+        <button class="btn" id="selectBtn">选择PDF文件</button>
+        <input type="file" id="fileInput" accept=".pdf" multiple>
+    </div>
+    <div class="file-list" id="fileList"></div>
+    <div style="text-align:center;">
+        <button class="btn" id="mergeBtn">开始合并并下载</button>
+    </div>
+</div>
+<script>
+const { PDFDocument } = PDFLib;
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const selectBtn = document.getElementById('selectBtn');
+const fileList = document.getElementById('fileList');
+const mergeBtn = document.getElementById('mergeBtn');
+
+let files = [];
+
+selectBtn.onclick = ()=> fileInput.click();
+
+fileInput.onchange = e=> handleFiles(e.target.files);
+
+//拖拽
+dropZone.ondragover = e=>{e.preventDefault();dropZone.classList.add('active');};
+dropZone.ondragleave = ()=> dropZone.classList.remove('active');
+dropZone.ondrop = e=>{
+    e.preventDefault();
+    dropZone.classList.remove('active');
+    handleFiles(e.dataTransfer.files);
+};
+
+function handleFiles(fileArr){
+    for(let f of fileArr){
+        if(f.type !== 'application/pdf') continue;
+        files.push(f);
+    }
+    renderFileList();
+}
+
+function renderFileList(){
+    fileList.innerHTML = '';
+    files.forEach((f,i)=>{
+        const div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerText = `${i+1}. ${f.name}`;
+        fileList.appendChild(div);
+    });
+}
+
+mergeBtn.onclick = async ()=>{
+    if(files.length <2){
+        alert("请至少选择2个PDF文件");
+        return;
+    }
+    mergeBtn.disabled = true;
+    try{
+        const newPdf = await PDFDocument.create();
+        for(let f of files){
+            const buf = await f.arrayBuffer();
+            const srcPdf = await PDFDocument.load(buf);
+            const pages = await newPdf.copyPages(srcPdf, srcPdf.getPageIndices());
+            pages.forEach(p=> newPdf.addPage(p));
+        }
+        const pdfBytes = await newPdf.save();
+        download(pdfBytes, "merged.pdf", "application/pdf");
+    }catch(err){
+        console.error(err);
+        alert("合并失败："+err.message);
+    }
+    mergeBtn.disabled = false;
+};
+
+function download(bytes, filename, mime){
+    const blob = new Blob([bytes], {type:mime});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}</script>
+<footer style="margin-top:80px;padding:30px 10px;text-align:center;font-size:14px;color:#ccc;">
+    <div style="margin-bottom:24px;">
+        <p>相关工具推荐 | <a href="/index.html" style="color:#60a5fa;">返回首页</a></p>
+        <div style="margin-top:10px;">
+            <a href="/merge.html" style="margin:0 8px;color:#60a5fa;">PDF合并</a>
+            <a href="/split.html" style="margin:0 8px;color:#60a5fa;">PDF拆分</a>
+            <a href="/compress.html" style="margin:0 8px;color:#60a5fa;">PDF压缩</a>
+            <a href="/pdf-to-image.html" style="margin:0 8px;color:#60a5fa;">PDF转图片</a>
+            <a href="/image-to-pdf.html" style="margin:0 8px;color:#60a5fa;">图片转PDF</a>
+            <a href="/watermark.html" style="margin:0 8px;color:#60a5fa;">PDF加水印</a>
+        </div>
+    </div>
+    <div>© 2026 PurePDF 保留所有权利</div>
+    <div style="margin-top:10px;">
+        <a href="/privacy.html" style="color:#999;margin:0 8px;">隐私政策</a>
+    </div>
+    <div style="margin-top:10px;">
+        <p style="margin:4px 0;font-size:13px;color:#bbb;">
+提示：部分链接属于联盟推广链接，您通过链接购买不会产生额外费用，本站可获得少量佣金，用于站点维护。
+            <a href="#" style="color:#60a5fa;white-space:nowrap;">推荐专业PDF桌面工具</a>
+        </p>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:#888;">
+        全部文档处理均在浏览器本地完成，文件不会上传服务器
+    </div>
+</footer>
+</body>
+</html>
